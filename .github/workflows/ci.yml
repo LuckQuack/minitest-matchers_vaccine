@@ -10,11 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["2.4", "2.5", "2.6", "2.7", "3.0", "3.1", "3.2", "3.3", "3.4"]
+        ruby: ["3.2", "3.3", "3.4", "4.0"]
+        gemfile:
+          - minitest-5
+          - minitest-6
+        include:
+          - { ruby: "2.4", gemfile: "minitest-5" }
+          - { ruby: "2.5", gemfile: "minitest-5" }
+          - { ruby: "2.6", gemfile: "minitest-5" }
+          - { ruby: "2.7", gemfile: "minitest-5" }
+          - { ruby: "3.0", gemfile: "minitest-5" }
+          - { ruby: "3.1", gemfile: "minitest-5" }
 
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
       # https://github.com/marketplace/actions/checkout
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
